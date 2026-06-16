@@ -1,0 +1,26 @@
+{
+  "name": "apiswitch",
+  "version": "1.0.0",
+  "description": "Routeur intelligent de clés API – Évitez les 429 et optimisez vos coûts",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/renardanthony44-glitch/apiswitch.git"
+  },
+  "keywords": ["api","router","load-balancer","rate-limiting","openai","anthropic"],
+  "author": "ApiSwitch Team",
+  "license": "MIT"
+}
