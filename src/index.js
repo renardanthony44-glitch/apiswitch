@@ -67,6 +67,38 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "../public/index.html")));
 app.get("/api/health", (req, res) => res.json({ status: "ok", timestamp: new Date().toISOString() }));
 
+// SIGNUP – public, no secret required
+app.post("/api/signup", async (req, res) => {
+  const { email } = req.body || {};
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ success: false, error: "Email invalide" });
+  }
+  try {
+    const apiKey = crypto.randomUUID();
+    const clientsData = JSON.parse(fs.readFileSync(CLIENTS_FILE, "utf8"));
+    clientsData.clients.push({ email, apiKey, plan: "starter", createdAt: new Date().toISOString() });
+    fs.writeFileSync(CLIENTS_FILE, JSON.stringify(clientsData, null, 2));
+
+    // Envoi de la clé par email (best-effort)
+    fetch("http://localhost:4001/api/tools/send-receipt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        to: email,
+        amount: "Gratuit",
+        description: `Votre clé ApiSwitch Starter : ${apiKey}`,
+        payment_id: "starter-free",
+        date: new Date().toLocaleDateString("fr-FR"),
+      }),
+    }).catch(e => console.error("[signup] send-receipt error:", e.message));
+
+    res.json({ success: true, apiKey });
+  } catch (e) {
+    console.error("[signup]", e.message);
+    res.status(500).json({ success: false, error: "Erreur interne" });
+  }
+});
+
 // CLIENT MANAGEMENT – verifyRapidapiSecret appliqué individuellement
 app.post("/api/register-client", verifyRapidapiSecret, (req, res) => {
   const clientsData = JSON.parse(fs.readFileSync(CLIENTS_FILE, "utf8"));
