@@ -1,9 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const https = require("https");
 const crypto = require("crypto");
-const { v4: uuidv4 } = require("uuid");
+
 const app = express();
 const PORT = process.env.PORT || 4002;
 
@@ -69,7 +70,7 @@ app.get("/api/health", (req, res) => res.json({ status: "ok", timestamp: new Dat
 // CLIENT MANAGEMENT – verifyRapidapiSecret appliqué individuellement
 app.post("/api/register-client", verifyRapidapiSecret, (req, res) => {
   const clientsData = JSON.parse(fs.readFileSync(CLIENTS_FILE, "utf8"));
-  const newKey = uuidv4();
+  const newKey = crypto.randomUUID();
   clientsData.clients.push({ apiKey: newKey, createdAt: new Date().toISOString() });
   fs.writeFileSync(CLIENTS_FILE, JSON.stringify(clientsData, null, 2));
   res.json({ apiKey: newKey });
