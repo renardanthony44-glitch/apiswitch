@@ -97,8 +97,8 @@
       text-align: center;
     }
     .pricing h2 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 48px; }
-    .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 540px) { .plans { grid-template-columns: 1fr; } }
+    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 800px) { .plans { grid-template-columns: 1fr; } }
     .plan {
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: 16px; padding: 32px 28px; text-align: left;
@@ -215,6 +215,19 @@
         <li>Support prioritaire</li>
       </ul>
       <a class="plan-btn pro" href="https://square.link/u/kA0eNBSB">Passer Pro — 29 €/mois</a>
+    </div>
+    <div class="plan">
+      <div class="plan-label">Enterprise</div>
+      <div class="plan-price">49 €<sub>/mois</sub></div>
+      <div class="plan-desc">Pour les équipes et entreprises</div>
+      <ul>
+        <li>Tout le plan Pro</li>
+        <li>SLA 99,5 % garanti</li>
+        <li>Support prioritaire dédié</li>
+        <li>Export logs complet</li>
+        <li>Onboarding personnalisé</li>
+      </ul>
+      <a class="plan-btn pro" href="https://square.link/u/PN20EmT9">Passer Enterprise — 49 €/mois</a>
     </div>
   </div>
 </section>
