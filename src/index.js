@@ -325,6 +325,9 @@ app.post("/api/proxy", verifyRapidapiSecret, async (req, res) => {
   res.status(503).json({ error: "All keys exhausted", retry_after: retryAfter, exhausted_keys: exhaustedKeys });
 });
 
+app.get("/signup", (req, res) => res.sendFile(path.join(__dirname, "../public/signup.html")));
+app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "../public/dashboard.html")));
+
 // 404 fallback
 app.use((req, res) => res.status(404).json({ error: "Not Found", path: req.path }));
 
